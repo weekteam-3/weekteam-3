@@ -2,9 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import DeleteSrc from "./delete.png";
 import UpdateSrc from "./update.png";
-// import { useNavigate } from "react-router-dom";
 
-function card() {
+function cardEdit() {
   const onClickHandler = (e) => {
     e.preventDefault();
     alert("제출완료!");
@@ -14,8 +13,6 @@ function card() {
     e.preventDefault();
     alert("삭제되었습니다");
   };
-
-  //   const navigate = useNavigate();
 
   return (
     <CommentBox>
@@ -32,20 +29,10 @@ function card() {
       </CommentEdit>
       <CommentList>
         <Comment>
-          <Name>
-            르탄이
-            {/* {Todo.name} */}
-          </Name>
-          <Content>
-            여기 코딩 맛집이라던데..
-            {/* {Todo.content} */}
-          </Content>
+          <Content>여기에 글이 들어와요</Content>
           <Buttons>
-            <Update
-              src={UpdateSrc}
-              // onClick={() => navigate(`./CardEdit`)}
-            />
-            <Delete src={DeleteSrc} onClick={onClickDeleteHandler} />
+            <Update>저장</Update>
+            <Delete onClick={onClickDeleteHandler}>취소</Delete>
           </Buttons>
         </Comment>
       </CommentList>
@@ -53,7 +40,7 @@ function card() {
   );
 }
 
-export default card;
+export default cardEdit;
 
 // 전체
 const CommentBox = styled.div`
@@ -104,7 +91,7 @@ const ContentInput = styled.input`
 
 // 댓글작성란에서 추가하기 버튼 입니다.
 const AddComment = styled.button`
-  border: 1px solid black;
+  border: 1px solid teal;
   /* border-radius: 5px; */
   background-color: transparent;
 
@@ -137,23 +124,23 @@ const Comment = styled.div`
 `;
 
 // 작성된 댓글 안의 이름 칸입니다.
-const Name = styled.div`
-  background-color: red;
+// const Name = styled.div`
+//   background-color: red;
 
-  width: 105px;
-  height: 40px;
+//   width: 105px;
+//   height: 40px;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 // 작성된 댓글 안의 내용칸입니다.
 const Content = styled.div`
   background-color: red;
 
-  width: 500px;
+  width: 622px;
   height: 40px;
 
   display: flex;
@@ -175,17 +162,28 @@ const Buttons = styled.div`
   align-items: center;
 `;
 
-// 작성된 댓글을 수정하는 버튼입니다.
-const Update = styled.img`
-  background-image: url(${UpdateSrc});
-  /* border: 1px solid black; */
+// 작성된 댓글 수정을 완료하는 버튼입니다.
+const Update = styled.div`
+  background-color: orange;
   margin-right: 10px;
-  width: 25px;
+  width: 30px;
+  height: 30px;
+
+  font-size: 15px;
+
+  display: flex;
+  align-items: center;
 `;
 
 // 작성된 댓글을 삭제하는 버튼입니다.
-const Delete = styled.img`
-  background-image: url(${DeleteSrc});
-  /* border: 1px solid transparent; */
-  width: 25px;
+const Delete = styled.div`
+  background-color: orange;
+  border: 1px solid transparent;
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+
+  font-size: 15px;
 `;
