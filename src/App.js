@@ -5,7 +5,6 @@ import Main from "./pages/Main";
 import Todo from "./pages/Todo";
 import Edit from "./pages/Edit";
 import Card from "./components/card/Card";
-import CardEdit from "./components/card/CardEdit";
 import Layout from "./pages/Layout";
 
 function App() {
@@ -18,7 +17,6 @@ function App() {
         <Route path="/:id" element={<Todo />} />
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/todo/card/:id" element={<Card />} />
-        <Route path="/todo/card/:id/edit" element={<CardEdit />} />
       </Routes>
     </div>
   );

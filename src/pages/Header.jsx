@@ -10,7 +10,7 @@ const Header = () => {
             navigate("/");
           }}
         >
-          홈
+          <HomeImage src="https://cdn-icons-png.flaticon.com/512/84/84384.png"></HomeImage>
         </Button>
         <div>오늘의 일기</div>
       </Container>
@@ -31,4 +31,8 @@ const Container = styled.div`
 
 const Button = styled.button`
   border: 0px;
+`;
+
+const HomeImage = styled.img`
+  width: 40px;
 `;
