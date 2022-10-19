@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { __getTodos } from "../redux/modules/thunk";
 
 function Main() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(__getTodos());
+  }, [dispatch]);
+
   const todos = useSelector((state) => state.todo.todos);
-  console.log(todos);
   return (
     <div>
-      <Layout>
-        <button>홈</button>
-        <div>오늘의 일기</div>
-      </Layout>
       <Title
         onClick={() => {
           navigate("/write");
@@ -21,9 +23,15 @@ function Main() {
         일기 쓰러 가기
       </Title>
       <BigBox>
-        <Box>제목</Box>
-        <Box>오늘 밥 먹음</Box>
-        <Box>오늘 숙제 함</Box>
+        {todos.map((todos) => (
+          <Box
+            onClick={() => {
+              navigate(`/${todos.id}`);
+            }}
+          >
+            {todos.title}
+          </Box>
+        ))}
       </BigBox>
     </div>
   );
@@ -31,39 +39,35 @@ function Main() {
 
 export default Main;
 
-const Layout = styled.div`
-  align-items: center;
-  border: 2px solid rgb(9, 234, 178);
-  display: flex;
-  height: 50px;
-  justify-content: space-between;
-  padding: 0 20px;
-  gap: 20px;
-`;
-
 const Title = styled.button`
   width: 90%;
   height: 50px;
   text-align: center;
-  margin: 20px auto;
+  margin: 30px auto;
   display: block;
   font-size: xx-large;
-  border: 2px solid rgb(9, 234, 178);
+  border: 4px solid rgb(9, 234, 178);
+  border-radius: 10px;
 `;
 
 const BigBox = styled.div`
   width: 90%;
+  height: 500px;
   margin: auto;
   padding: 20px;
-  border: 2px solid rgb(9, 234, 178);
+  border: 4px solid rgb(9, 234, 178);
+  border-radius: 10px;
+  overflow: auto;
 `;
 
 const Box = styled.div`
   max-width: 95%;
   height: 50px;
-  margin: auto;
-  border: 1px solid #dec8c8;
+  margin: 5px auto;
+  border: 2px solid #ea6c81;
+  border-radius: 5px;
   flex-direction: column;
   text-align: center;
   font-size: xx-large;
+  cursor: pointer;
 `;
