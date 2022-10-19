@@ -30,24 +30,24 @@
 
 // export default cardslice;
 
-import { createSlice } from "@reduxjs/toolkit";
+// import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  id: "",
-  name: "",
-  content: "",
-};
+// const initialState = {
+//   id: "",
+//   name: "",
+//   content: "",
+// };
 
-const cardSlice = createSlice({
-  name: "card",
-  initialState,
-  reducers: {
-    addComment: (state, action) => {
-      state.comment = state.id + state.name + state.content + action.payload;
-    },
-  },
-});
+// const cardSlice = createSlice({
+//   name: "card",
+//   initialState,
+//   reducers: {
+//     addComment: (state, action) => {
+//       state.comment = state.id + state.name + state.content + action.payload;
+//     },
+//   },
+// });
 
-export const { addCommnet } = cardSlice.action;
+// export const { addCommnet } = cardSlice.action;
 
-export default cardSlice.reducer;
+// export default cardSlice.reducer;
