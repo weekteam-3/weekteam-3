@@ -1,7 +1,7 @@
 // import { Action } from "@remix-run/router";
 
 // const ADD_COMMENT = "ADD_COMMENT";
-// const 
+// const
 
 // export const addComment = (payload) => {
 //     return {
@@ -33,19 +33,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    id: "",
-    name:"",
-    content:"",
+  id: "",
+  name: "",
+  content: "",
 };
 
 const cardSlice = createSlice({
-    name="card",
-    initialState,
-    reducers: {
-        addComment: (state, action) => {
-            state.comment = state.id + state.name + state.content + action.payload;
-        },
+  name: "card",
+  initialState,
+  reducers: {
+    addComment: (state, action) => {
+      state.comment = state.id + state.name + state.content + action.payload;
     },
+  },
 });
 
 export const { addCommnet } = cardSlice.action;
