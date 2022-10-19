@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+
 import { __addTodos } from "../redux/modules/thunk";
 
 const Write = () => {
@@ -23,6 +24,7 @@ const Write = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     if (todo.title === "") {
       alert("제목을 입력하세요");
     } else if (todo.data === "") {

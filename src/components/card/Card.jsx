@@ -1,51 +1,163 @@
-import React from "react";
+import React, { useState, useRef, useDispatch } from "react";
 import styled from "styled-components";
 import DeleteSrc from "./delete.png";
 import UpdateSrc from "./update.png";
-// import { useNavigate } from "react-router-dom";
+import { useInput } from "../hooks/useInput";
+import {
+  __updateComment,
+  __deleteComment,
+} from "../../redux/modules/CardSlice";
+import { __getCommentById } from "../../redux/modules/CardSlice";
+import { __addComment } from "../../redux/modules/CardSlice";
 
-function card() {
-  const onClickHandler = (e) => {
-    e.preventDefault();
-    alert("제출완료!");
+function Card() {
+  const [inputs, setInputs] = useState({
+    id: "",
+    userName: "",
+    userContent: "",
+  });
+
+  // const { userName, userContent } = inputs;
+  const dispatch = useDispatch();
+
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
+
+  const anotherAction = () => {
+    setIsUpdateMode(!isUpdateMode);
   };
 
-  const onClickDeleteHandler = (e) => {
-    e.preventDefault();
-    alert("삭제되었습니다");
+  const [userName, onChangeNameHandler] = useInput();
+  const [userContent, onChangeContentHandler] = useInput();
+  const [userBody, onChangeBodyHandler] = useInput();
+  // const onChange = (e) => {
+  //   const { name, value } = e.target;
+
+  //   setInputs({
+  //     ...inputs,
+  //     [name]: value,
+  //   });
+  // };
+
+  const [cards, setCards] = useState([
+    {
+      id: 1,
+      name: "이복자",
+      content: "밥은 먹고 다니는겨?",
+    },
+  ]);
+
+  const nextId = useRef("50");
+
+  const onCreate = () => {
+    const card = {
+      id: nextId.current,
+      userName,
+      userContent,
+    };
+
+    const addCommentData = {
+      name: "",
+      comment: "",
+    };
+
+    setCards(cards.concat(card));
+
+    setInputs({
+      userName: "",
+      userContent: "",
+    });
+
+    nextId.current += 1;
+
+    dispatch(__addComment(addCommentData));
+    dispatch(__getCommentById(nextId));
   };
+
+  const saveAndDeleteBtn = () => {
+    if (isUpdateMode) {
+      const newCommentData = {
+        comment: "",
+      };
+      dispatch(__updateComment(newCommentData));
+    } else {
+      dispatch(__deleteComment(nextId));
+    }
+  };
+
+  // const AddCommentBtn = () => {
+  //     const addCommentData = {
+  //       name:"",
+  //       comment: "",
+  //     };
+  //     dispatch(__addComment(addCommentData));
+  //   } else {
+  //     dispatch(__getCommentById(card.id));
+  //   }
+  // };
+
+  // const onClickHandler = (e) => {
+  //   e.preventDefault();
+  //   alert("제출완료!");
+  // };
+
+  // const onClickDeleteHandler = (e) => {
+  //   e.preventDefault();
+  //   alert("삭제되었습니다");
+  // };
 
   //   const navigate = useNavigate();
 
+  console.log(isUpdateMode);
   return (
     <CommentBox>
       <CommentEdit>
-        <NameInput type={"text"} placeholder={"이름"} minLength={2}></NameInput>
+        <NameInput
+          type={"text"}
+          placeholder={"이름"}
+          minLength={2}
+          name="userName"
+          onChange={onChangeNameHandler}
+          value={userName}
+        />
         <ContentInput
           maxLength={10}
           type={"text"}
           placeholder={"댓글을 적어주세요"}
+          name="userContent"
+          onChange={onChangeContentHandler}
+          value={userContent}
         ></ContentInput>
-        <AddComment type={"button"} onClick={onClickHandler}>
+        <AddComment type={"button"} onClick={onCreate}>
           추가하기
         </AddComment>
       </CommentEdit>
       <CommentList>
         <Comment>
           <Name>
-            르탄이
-            {/* {Todo.name} */}
+            {/* 르탄이 */}
+            {userName}
           </Name>
-          <Content>
-            여기 코딩 맛집이라던데..
-            {/* {Todo.content} */}
-          </Content>
-          <Buttons>
-            <Update
-              src={UpdateSrc}
-              // onClick={() => navigate(`./CardEdit`)}
-            />
-            <Delete src={DeleteSrc} onClick={onClickDeleteHandler} />
+
+          {isUpdateMode ? (
+            <ContentInput
+              maxLength={10}
+              type={"text"}
+              placeholder={"댓글을 적어주세요"}
+              name="userContent"
+              onChange={onChangeBodyHandler}
+              value={userBody}
+            ></ContentInput>
+          ) : (
+            <Content>{userContent}</Content>
+          )}
+
+          <Buttons onClick={anotherAction}>
+            <button>
+              {isUpdateMode ? <p>"취소"</p> : <Update src={UpdateSrc} />}
+            </button>
+            <button onClick={saveAndDeleteBtn}>
+              {isUpdateMode ? "저장" : <Delete src={DeleteSrc} />}
+            </button>
           </Buttons>
         </Comment>
       </CommentList>
@@ -53,7 +165,7 @@ function card() {
   );
 }
 
-export default card;
+export default Card;
 
 // 전체
 const CommentBox = styled.div`
