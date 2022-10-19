@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addTodo } from "../redux/modules/Modules";
+// import { addTodo } from "../redux/modules/Modules";
 
 const Write = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Write = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(addTodo(todo));
+    // dispatch(addTodo(todo));
   };
   return (
     <form onSubmit={onSubmit}>
@@ -32,8 +32,7 @@ const Write = () => {
         <button
           onClick={() => {
             navigate("/");
-          }}
-        >
+          }}>
           홈
         </button>
         <div>오늘의 일기</div>
