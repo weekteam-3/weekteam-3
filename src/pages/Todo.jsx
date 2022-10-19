@@ -4,11 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __getTodo, __deleteTodo } from "../redux/modules/todoModule";
 import { __updateTodo } from "../redux/modules/todoModule";
+
 function Todo() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const { todoData, isLoading } = useSelector((state) => state.todo);
   const todoData = useSelector((state) => state.todoModule.todo);
 
   const params = useParams();
@@ -37,22 +37,34 @@ function Todo() {
   //deep하게 들어가게 되는데 state의 todoModule의 todo에 있는 걸 가져오게 된다.
   return (
     <div>
-      <p className="title">제목 : {todoData.title}</p>
-      <p className="date">날짜 : {todoData.date}</p>
-      <div className="text">내용 : {todoData.content}</div>
-      <ButtonBox>
-        <Btn onClick={doUpdate}>수정</Btn>
-        <Btn onClick={doDelete}>삭제</Btn>
-      </ButtonBox>
+      <Box>
+        <p className="title">제목 : {todoData.title}</p>
+        <p className="date">날짜 : {todoData.date}</p>
+        <div className="text">내용 : {todoData.content}</div>
+        <ButtonBox>
+          <Btn onClick={doUpdate}>수정</Btn>
+          <Btn onClick={doDelete}>삭제</Btn>
+        </ButtonBox>
+      </Box>
       {/*?는 옵셔널 체이닝 optionalChaining */}
     </div>
   );
 }
 export default Todo;
 
+const Box = styled.div`
+  height: 100%;
+  width: 90%;
+  margin: 30px auto;
+  border: 2px solid rgb(9, 234, 178);
+  border-radius: 5px;
+  padding: 0px 20px;
+`;
+
 const ButtonBox = styled.div`
   width: 100%;
   height: 30px;
+  float: right;
 `;
 
 const Btn = styled.button`
