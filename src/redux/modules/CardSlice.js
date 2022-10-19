@@ -39,6 +39,8 @@ const initialState = {
       id: "1",
       userName: "안녕",
       userContent: "하세요",
+      isLoading: false,
+      error: null,
     },
   ],
 };
@@ -63,7 +65,7 @@ export const __getCommentById = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.post(
-        "http://localhost:3000/todo/card/${id}",
+        "http://localhost:3000/todo/card/:id",
         payload
       );
       return thunkAPI.fulfillWithValue(data.data);
@@ -94,7 +96,7 @@ export const __deleteComment = createAsyncThunk(
   "DELETE_COMMENT",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.delete("http://localhost:3000/todo/card/${:id}");
+      const data = await axios.delete("http://localhost:3000/todo/card/:id");
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -107,6 +109,28 @@ export const cardSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    [__addComment.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__addComment.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.comments.push(action.payload);
+    },
+    [__addComment.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.card = action.payload;
+    },
+    [__getCommentById.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getCommentById.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.commentById = action.payload;
+    },
+    [__getCommentById.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.card = action.payload;
+    },
     [__updateComment.pending]: (state) => {
       state.isLoading = true;
     },
@@ -129,30 +153,12 @@ export const cardSlice = createSlice({
       state.isLoading = false;
       state.card = action.payload;
     },
-    [__addComment.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__addComment.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.card = action.payload;
-    },
-    [__addComment.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.card = action.payload;
-    },
-    [__getCommentById.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__getCommentById.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.card = action.payload;
-    },
-    [__getCommentById.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.card = action.payload;
-    },
   },
 });
+
+export const { addComment } = cardSlice.actions;
+
+export default cardSlice.reducer;
 
 // export const cardSlice = createSlice({
 //   name: "Card",
@@ -169,7 +175,3 @@ export const cardSlice = createSlice({
 //     },
 //   },
 // });
-
-export const { addComment } = cardSlice.actions;
-
-export default cardSlice.reducer;

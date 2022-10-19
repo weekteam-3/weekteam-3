@@ -7,6 +7,8 @@ import {
   __updateComment,
   __deleteComment,
 } from "../../redux/modules/CardSlice";
+import { __getCommentById } from "../../redux/modules/CardSlice";
+import { __addComment } from "../../redux/modules/CardSlice";
 
 function Card() {
   const [inputs, setInputs] = useState({
@@ -53,6 +55,11 @@ function Card() {
       userContent,
     };
 
+    const addCommentData = {
+      name: "",
+      comment: "",
+    };
+
     setCards(cards.concat(card));
 
     setInputs({
@@ -61,6 +68,9 @@ function Card() {
     });
 
     nextId.current += 1;
+
+    dispatch(__addComment(addCommentData));
+    dispatch(__getCommentById(nextId));
   };
 
   const saveAndDeleteBtn = () => {
@@ -70,9 +80,20 @@ function Card() {
       };
       dispatch(__updateComment(newCommentData));
     } else {
-      dispatch(__deleteComment(nextId.id));
+      dispatch(__deleteComment(nextId));
     }
   };
+
+  // const AddCommentBtn = () => {
+  //     const addCommentData = {
+  //       name:"",
+  //       comment: "",
+  //     };
+  //     dispatch(__addComment(addCommentData));
+  //   } else {
+  //     dispatch(__getCommentById(card.id));
+  //   }
+  // };
 
   // const onClickHandler = (e) => {
   //   e.preventDefault();
