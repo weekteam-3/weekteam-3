@@ -6,9 +6,9 @@ import { useInput } from "../hooks/useInput";
 import {
   __updateComment,
   __deleteComment,
-} from "../../redux/modules/CardSlice";
-import { __getCommentById } from "../../redux/modules/CardSlice";
-import { __addComment } from "../../redux/modules/CardSlice";
+} from "../../redux/modules/cardSlice";
+import { __getCommentById } from "../../redux/modules/cardSlice";
+import { __addComment } from "../../redux/modules/cardSlice";
 
 function Card() {
   const [inputs, setInputs] = useState({
