@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import card from "../../components/card/Card";
-import todo from "../modules/Modules";
+import todos from "../modules/Modules";
 import cardSlice from "../modules/CardSlice";
+import todo from "../modules/todoModule";
 
 const store = configureStore({
   reducer: {
-    todo: todo.reducer,
+    todos: todos.reducer,
     card: card,
     CardSlice: cardSlice,
+    todoModule: todo,
   },
 });
 
