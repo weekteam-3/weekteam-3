@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import DeleteSrc from "./delete.png";
 import UpdateSrc from "./update.png";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function card() {
   const onClickHandler = (e) => {
@@ -24,8 +24,7 @@ function card() {
         <ContentInput
           maxLength={10}
           type={"text"}
-          placeholder={"댓글을 적어주세요"}
-        ></ContentInput>
+          placeholder={"댓글을 적어주세요"}></ContentInput>
         <AddComment type={"button"} onClick={onClickHandler}>
           추가하기
         </AddComment>
