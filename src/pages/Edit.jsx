@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,10 @@ function Edit() {
 
   const todoData = useSelector((state) => state.todoModule.todo);
 
+  const [titleValue, setTitleValue] = useState();
+  const [dateValue, setDateValue] = useState();
+  const [contentValue, setContentValue] = useState();
+
   const params = useParams();
   const id = params.id;
 
@@ -17,19 +21,57 @@ function Edit() {
     dispatch(__getTodo(id));
   }, [dispatch, id]);
 
-  const goMain = () => {
+  const update = () => {
+    const newTodo = {
+      id: id,
+      title: titleValue,
+      content: contentValue,
+      date: dateValue,
+    };
+    dispatch(__updateTodo(newTodo));
     navigate(`/${id}`);
+  };
+
+  // const goMain = () => {
+  //   navigate(`${id}`);
+  // };
+
+  const titleOnChangeHandler = (e) => {
+    console.log(e.target.value);
+    const inputValue = e.target.value;
+    setTitleValue(inputValue);
+  };
+  const dateOnChangeHandler = (e) => {
+    const inputValue = e.target.value;
+    setDateValue(inputValue);
+  };
+  const contentOnChangeHandler = (e) => {
+    const inputValue = e.target.value;
+    setContentValue(inputValue);
   };
 
   return (
     <Box>
-      <TitleBox>
-        <p className="title">제목 : {todoData.title}</p>
-        <p className="date">날짜 : {todoData.date}</p>
-      </TitleBox>
-      <div className="text">내용 : {todoData.content}</div>
+      <div>
+        <input
+          className="title"
+          placeholder={todoData.title}
+          onChange={titleOnChangeHandler}
+        />
+        <input
+          className="date"
+          placeholder={todoData.date}
+          onChange={dateOnChangeHandler}
+          type="date"
+        />
+      </div>
+      <input
+        className="text"
+        placeholder={todoData.content}
+        onChange={contentOnChangeHandler}
+      />
 
-      <Btn onClick={goMain}>수정하기</Btn>
+      <Btn onClick={update}>수정하기</Btn>
     </Box>
   );
 }
@@ -42,10 +84,6 @@ const Box = styled.div`
   border: 2px solid rgb(9, 234, 178);
   border-radius: 5px;
   padding: 0px 20px;
-`;
-
-const TitleBox = `
-  
 `;
 
 const Btn = styled.button`
