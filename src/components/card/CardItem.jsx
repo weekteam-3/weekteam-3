@@ -106,7 +106,7 @@ const Comment = styled.div`
 
 // 작성된 댓글 안의 이름 칸입니다.
 const Name = styled.div`
-  background-color: red;
+  background-color: white;
 
   width: 105px;
   height: 40px;
@@ -119,7 +119,7 @@ const Name = styled.div`
 
 // 작성된 댓글 안의 내용칸입니다.
 const Content = styled.div`
-  background-color: red;
+  background-color: white;
 
   width: 500px;
   height: 40px;
