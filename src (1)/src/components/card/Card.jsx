@@ -13,31 +13,28 @@ function Card() {
   // 지금 현재 보고 있는 게시물 아이디 필요 -> params로 가져옴 -> 현재 id가 너무 많기때문에 헷갈림 -> 이거는 id에서 feedId로 변경할게요
   const params = useParams();
   const feedId = params.id;
-  const ssid = params.ssid;
 
   // feedId를 가지고 db.json에서 현재 게시물에 속한 댓글 다 뽑아내야함
   // 언제? 페이지에 처음들어왔을때 + feedId가 변경될때마다 (params값이 변경될때마다)
   useEffect(() => {
-    dispatch(__getCommentById(ssid));
-  }, [dispatch, ssid]);
+    dispatch(__getCommentById(feedId));
+  }, [dispatch, feedId]);
 
-  console.log("나야나", feedId);
   // useSelector로 불러와서 이제부터 commentData라고 불러주는 데이터는 현재 보고 있는 게시물의 댓글리스트입니다.
   const commentData = useSelector((state) => state.CardSlice.comments);
 
   const [userName, onChangeNameHandler, setUserName] = useInput();
   const [userComment, onChangeCommentHandler, setUserComment] = useInput();
 
-  const onCreate = (commentId, ssid) => {
+  console.log({ userName });
+  const onCreate = () => {
     // input창에 새로 입력하는 댓글 내용
     const newComment = {
-      ssid: ssid,
       todoId: feedId,
       userName: userName,
       userComment: userComment,
     };
 
-    console.log(newComment.ssid);
     // 새로 댓글 추가
     dispatch(__addComment(newComment));
 

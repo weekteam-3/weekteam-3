@@ -23,7 +23,7 @@ export const __getCommentById = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get(
-        `http://localhost:3001/comments?ssId=${payload}`
+        `http://localhost:3001/comments?todoId=${payload}`
       );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {

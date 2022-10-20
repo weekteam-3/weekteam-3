@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router";
 import styled from "styled-components";
 import {
   __deleteComment,
-  __getCommentById,
   __updateComment,
 } from "../../redux/modules/cardSlice";
 import useInput from "../hooks/useInput";
@@ -14,12 +12,7 @@ import UpdateSrc from "./update.png";
 const CardItem = ({ comments }) => {
   const dispatch = useDispatch();
 
-  const params = useParams();
-  const delId = params.id;
-
-  console.log(delId);
   // 편집 모드 or 일반 모드  state / 초기에는 일반모드 (false)
-
   const [isUpdateMode, setIsUpdateMode] = useState(false);
 
   //   편집 모드일때 input값을 가져오기 위한 부분
@@ -39,13 +32,8 @@ const CardItem = ({ comments }) => {
     // }
   };
 
-  useEffect(() => {
-    dispatch(__getCommentById(delId));
-  }, [dispatch, delId]);
-
   // 저장/쓰레기통 아이콘 누를때
   // (commentId)는 밑에서 클릭할때 함수에 감싸서 보내준 comments.id입니다.
-
   const saveAndDeleteBtn = (commentId) => {
     if (isUpdateMode) {
       // 저장일때
@@ -58,11 +46,8 @@ const CardItem = ({ comments }) => {
         userComment: userBody,
       };
 
-      const comId = params.id;
-
       // 새로운 정보를 모아서 update 요청
       dispatch(__updateComment(payload));
-      console.log(payload);
       setIsUpdateMode(!isUpdateMode);
     } else {
       // 쓰레기통 아이콘일때
@@ -121,7 +106,7 @@ const Comment = styled.div`
 
 // 작성된 댓글 안의 이름 칸입니다.
 const Name = styled.div`
-  background-color: white;
+  background-color: red;
 
   width: 105px;
   height: 40px;
@@ -134,7 +119,7 @@ const Name = styled.div`
 
 // 작성된 댓글 안의 내용칸입니다.
 const Content = styled.div`
-  background-color: white;
+  background-color: red;
 
   width: 500px;
   height: 40px;
