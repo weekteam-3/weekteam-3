@@ -22,6 +22,20 @@ export const __getTodo = createAsyncThunk(
   }
 );
 
+export const __deleteTodo = createAsyncThunk(
+  "DELETE_TODO",
+  async (payload, thunkAPI) => {
+    try {
+      await axios.delete(`http://localhost:3001/todos/${payload}`);
+      // console.log("thunk에서 보낸다", remove);
+      return thunkAPI.fulfillWithValue(payload);
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const __updateTodo = createAsyncThunk(
   "UPDATE_TODO",
   async (payload, thunkAPI) => {
@@ -32,20 +46,6 @@ export const __updateTodo = createAsyncThunk(
       );
       console.log("thunk에서 수정한거 보낸다", update);
       return thunkAPI.fulfillWithValue(update.data);
-    } catch (error) {
-      console.log(error);
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
-export const __deleteTodo = createAsyncThunk(
-  "DELETE_TODO",
-  async (payload, thunkAPI) => {
-    try {
-      await axios.delete(`http://localhost:3001/todos/${payload}`);
-      // console.log("thunk에서 보낸다", remove);
-      return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error);
