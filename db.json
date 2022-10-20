@@ -8,7 +8,6 @@
     },
     {
       "title": "내일의 일기",
-
       "date": "2022-10-20",
       "content": "내일의 일기",
       "id": "tRVBkeF"
@@ -16,10 +15,10 @@
   ],
   "comments": [
     {
-      "id": "c1",
       "todoId": "1",
-      "name": "글쓴이",
-      "content": "댓글 내용"
+      "userName": "",
+      "userComment": "ㅇㅇㅇ",
+      "id": 1
     }
   ]
 }
