@@ -76,7 +76,7 @@ function Card() {
         {commentData?.map((comments) => (
           // 수정버튼 하나 누르면 모든 댓글들이 편집 모드 되는건...
           // 원래 여기 map안에서 편집시 input/buttons를 다 있던걸 component 하나로 분리해서 빼서 수정했습니다.
-          <CardItem comments={comments} />
+          <CardItem comments={comments} feedId={feedId} />
         ))}
       </CommentList>
     </CommentBox>
