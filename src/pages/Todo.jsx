@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __getTodo, __deleteTodo } from "../redux/modules/todoModule";
 import { __updateTodo } from "../redux/modules/todoModule";
+import Card from "../components/card/Card";
 
 function Todo() {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ function Todo() {
         </ButtonBox>
       </Box>
       {/*?는 옵셔널 체이닝 optionalChaining */}
+      <Card />
     </div>
   );
 }
