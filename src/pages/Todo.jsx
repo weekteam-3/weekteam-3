@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,9 +38,11 @@ function Todo() {
   return (
     <div>
       <Box>
-        <p className="title">제목 : {todoData.title}</p>
-        <p className="date">날짜 : {todoData.date}</p>
-        <div className="text">내용 : {todoData.content}</div>
+        <TitleBox>
+          <Title className="title">제목 : {todoData.title}</Title>
+          <Title className="date">날짜 : {todoData.date}</Title>
+        </TitleBox>
+        <Content className="text">{todoData.content}</Content>
         <ButtonBox>
           <Btn onClick={doUpdate}>수정</Btn>
           <Btn onClick={doDelete}>삭제</Btn>
@@ -53,29 +55,54 @@ function Todo() {
 export default Todo;
 
 const Box = styled.div`
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  width: 90%;
+  width: 70%;
   margin: 30px auto;
-  border: 2px solid rgb(9, 234, 178);
+  border: 5px solid rgb(11, 137, 18);
   border-radius: 5px;
   padding: 0px 20px;
 `;
 
-const ButtonBox = styled.div`
+const TitleBox = styled.div`
+  display: flex;
+  height: 100px;
   width: 100%;
-  height: 30px;
-  float: right;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Title = styled.div`
+  padding: 5px;
+  flex-grow: 0.2;
+  border-radius: 5px;
+  border: 2px solid black;
+  justify-content: center;
+  text-align: center;
+`;
+
+const Content = styled.div`
+  width: 100%;
+  height: 300px;
+  border: 2px solid rgb(8, 10, 10);
+  border-radius: 4px;
+  padding: 10px;
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  width: 100%;
+  height: 70px;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const Btn = styled.button`
   background: white;
-  color: black;
+  width: 48%;
   border-radius: 4px;
   padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-items: right;
-  box-sizing: border-box;
   font-size: 1rem;
-  font-weight: 600;
+  text-align: center;
 `;
