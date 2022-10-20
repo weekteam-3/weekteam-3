@@ -13,6 +13,7 @@ function Main() {
   }, [dispatch]);
 
   const todos = useSelector((state) => state.todos.todos);
+  console.log(todos);
   return (
     <div>
       <Title
