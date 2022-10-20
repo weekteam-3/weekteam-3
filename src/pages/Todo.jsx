@@ -3,10 +3,6 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __getTodo, __deleteTodo } from "../redux/modules/todoModule";
-<<<<<<< HEAD
-import { __updateTodo } from "../redux/modules/todoModule";
-=======
->>>>>>> da5f9a1f835d6eebfdb8e463b744f0ef409529f8
 import Card from "../components/card/Card";
 
 function Todo() {
