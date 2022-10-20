@@ -1,118 +1,57 @@
-import React, { useState, useRef, useDispatch } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import DeleteSrc from "./delete.png";
-import UpdateSrc from "./update.png";
 import { useInput } from "../hooks/useInput";
-import {
-  __updateComment,
-  __deleteComment,
-} from "../../redux/modules/cardSlice";
 import { __getCommentById } from "../../redux/modules/cardSlice";
 import { __addComment } from "../../redux/modules/cardSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import CardItem from "./CardItem";
 
 function Card() {
-  const [inputs, setInputs] = useState({
-    id: "",
-    userName: "",
-    userContent: "",
-  });
-
-  // const { userName, userContent } = inputs;
   const dispatch = useDispatch();
 
-  const [isUpdateMode, setIsUpdateMode] = useState(false);
+  // 지금 현재 보고 있는 게시물 아이디 필요 -> params로 가져옴 -> 현재 id가 너무 많기때문에 헷갈림 -> 이거는 id에서 feedId로 변경할게요
+  const params = useParams();
+  const feedId = params.id;
 
-  const anotherAction = () => {
-    setIsUpdateMode(!isUpdateMode);
-  };
+  // feedId를 가지고 db.json에서 현재 게시물에 속한 댓글 다 뽑아내야함
+  // 언제? 페이지에 처음들어왔을때 + feedId가 변경될때마다 (params값이 변경될때마다)
+  useEffect(() => {
+    dispatch(__getCommentById(feedId));
+  }, [dispatch, feedId]);
 
-  const [userName, onChangeNameHandler] = useInput();
-  const [userContent, onChangeContentHandler] = useInput();
-  const [userBody, onChangeBodyHandler] = useInput();
-  // const onChange = (e) => {
-  //   const { name, value } = e.target;
+  // useSelector로 불러와서 이제부터 commentData라고 불러주는 데이터는 현재 보고 있는 게시물의 댓글리스트입니다.
+  const commentData = useSelector((state) => state.CardSlice.comments);
 
-  //   setInputs({
-  //     ...inputs,
-  //     [name]: value,
-  //   });
-  // };
+  const [userName, onChangeNameHandler, setUserName] = useInput();
+  const [userComment, onChangeCommentHandler, setUserComment] = useInput();
 
-  const [cards, setCards] = useState([
-    {
-      id: 1,
-      name: "이복자",
-      content: "밥은 먹고 다니는겨?",
-    },
-  ]);
-
-  const nextId = useRef("50");
-
+  console.log({ userName });
   const onCreate = () => {
-    const card = {
-      id: nextId.current,
-      userName,
-      userContent,
+    // input창에 새로 입력하는 댓글 내용
+    const newComment = {
+      todoId: feedId,
+      userName: userName,
+      userComment: userComment,
     };
 
-    const addCommentData = {
-      name: "",
-      comment: "",
-    };
+    // 새로 댓글 추가
+    dispatch(__addComment(newComment));
 
-    setCards(cards.concat(card));
+    // 새로운 리스트 받아오기
+    dispatch(__getCommentById(feedId));
 
-    setInputs({
-      userName: "",
-      userContent: "",
-    });
-
-    nextId.current += 1;
-
-    dispatch(__addComment(addCommentData));
-    dispatch(__getCommentById(nextId));
+    // 빈칸만들기
+    setUserName("");
+    setUserComment("");
   };
 
-  const saveAndDeleteBtn = () => {
-    if (isUpdateMode) {
-      const newCommentData = {
-        comment: "",
-      };
-      dispatch(__updateComment(newCommentData));
-    } else {
-      dispatch(__deleteComment(nextId));
-    }
-  };
-
-  // const AddCommentBtn = () => {
-  //     const addCommentData = {
-  //       name:"",
-  //       comment: "",
-  //     };
-  //     dispatch(__addComment(addCommentData));
-  //   } else {
-  //     dispatch(__getCommentById(card.id));
-  //   }
-  // };
-
-  // const onClickHandler = (e) => {
-  //   e.preventDefault();
-  //   alert("제출완료!");
-  // };
-
-  // const onClickDeleteHandler = (e) => {
-  //   e.preventDefault();
-  //   alert("삭제되었습니다");
-  // };
-
-  //   const navigate = useNavigate();
-
-  console.log(isUpdateMode);
   return (
     <CommentBox>
+      {/* 댓글 입력하는 부분 */}
       <CommentEdit>
         <NameInput
-          type={"text"}
+          type="text"
           placeholder={"이름"}
           minLength={2}
           name="userName"
@@ -120,46 +59,25 @@ function Card() {
           value={userName}
         />
         <ContentInput
-          maxLength={10}
-          type={"text"}
+          minLength={10}
+          type="text"
           placeholder={"댓글을 적어주세요"}
-          name="userContent"
-          onChange={onChangeContentHandler}
-          value={userContent}
-        ></ContentInput>
+          name="userComment"
+          onChange={onChangeCommentHandler}
+          value={userComment}
+        />
         <AddComment type={"button"} onClick={onCreate}>
           추가하기
         </AddComment>
       </CommentEdit>
+
+      {/* 댓글 리스트 부분 */}
       <CommentList>
-        <Comment>
-          <Name>
-            {/* 르탄이 */}
-            {userName}
-          </Name>
-
-          {isUpdateMode ? (
-            <ContentInput
-              maxLength={10}
-              type={"text"}
-              placeholder={"댓글을 적어주세요"}
-              name="userContent"
-              onChange={onChangeBodyHandler}
-              value={userBody}
-            ></ContentInput>
-          ) : (
-            <Content>{userContent}</Content>
-          )}
-
-          <Buttons onClick={anotherAction}>
-            <button>
-              {isUpdateMode ? <p>"취소"</p> : <Update src={UpdateSrc} />}
-            </button>
-            <button onClick={saveAndDeleteBtn}>
-              {isUpdateMode ? "저장" : <Delete src={DeleteSrc} />}
-            </button>
-          </Buttons>
-        </Comment>
+        {commentData?.map((comments) => (
+          // 수정버튼 하나 누르면 모든 댓글들이 편집 모드 되는건...
+          // 원래 여기 map안에서 편집시 input/buttons를 다 있던걸 component 하나로 분리해서 빼서 수정했습니다.
+          <CardItem comments={comments} />
+        ))}
       </CommentList>
     </CommentBox>
   );
@@ -231,73 +149,4 @@ const AddComment = styled.button`
 const CommentList = styled.div`
   width: 800px;
   height: 300px;
-`;
-
-// 이름과 내용이 추가되어 작성된 댓글칸입니다.
-const Comment = styled.div`
-  border: 1px solid black;
-  /* border-radius: 5px; */
-
-  width: 760px;
-  height: 50px;
-
-  margin: 10px auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-// 작성된 댓글 안의 이름 칸입니다.
-const Name = styled.div`
-  background-color: red;
-
-  width: 105px;
-  height: 40px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-// 작성된 댓글 안의 내용칸입니다.
-const Content = styled.div`
-  background-color: red;
-
-  width: 500px;
-  height: 40px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-// 작성된 댓글 안의 수정,삭제 버튼 칸입니다.
-const Buttons = styled.div`
-  /* background-color: red; */
-  border: 1px solid gray;
-  width: 120px;
-  height: 40px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-// 작성된 댓글을 수정하는 버튼입니다.
-const Update = styled.img`
-  background-image: url(${UpdateSrc});
-  /* border: 1px solid black; */
-  margin-right: 10px;
-  width: 25px;
-`;
-
-// 작성된 댓글을 삭제하는 버튼입니다.
-const Delete = styled.img`
-  background-image: url(${DeleteSrc});
-  /* border: 1px solid transparent; */
-  width: 25px;
 `;

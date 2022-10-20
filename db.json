@@ -8,7 +8,6 @@
     },
     {
       "title": "내일의 일기",
-
       "date": "2022-10-20",
       "content": "내일의 일기",
       "id": "tRVBkeF"
@@ -16,10 +15,34 @@
   ],
   "comments": [
     {
-      "id": "c1",
-      "todoId": "1",
-      "name": "글쓴이",
-      "content": "댓글 내용"
+      "id": "1",
+      "todoId": "s0I6SDV",
+      "userName": "글쓴이",
+      "userComment": "댓글 내용"
+    },
+    {
+      "id": "2",
+      "todoId": "s0I6SDV",
+      "userName": "글쓴이",
+      "userComment": "댓글 내용"
+    },
+    {
+      "id": "3",
+      "todoId": "s0I6SDV",
+      "userName": "글쓴이",
+      "userComment": "댓글 내용"
+    },
+    {
+      "id": "4",
+      "todoId": "s0I6SDV",
+      "userName": "글쓴이",
+      "userComment": "댓글 내용"
+    },
+    {
+      "todoId": "s0I6SDV",
+      "userName": "ㅇㅇ",
+      "userComment": "미미미미미미미",
+      "id": "UF1cjiF"
     }
   ]
 }
