@@ -15,28 +15,10 @@
   ],
   "comments": [
     {
-      "ssid": "1",
-      "todoId": "s0I6SDV",
-      "userName": "글쓴이",
-      "userComment": "댓글 내용"
-    },
-    {
-      "ssid": "2",
-      "todoId": "s0I6SDV",
-      "userName": "글쓴이",
-      "userComment": "댓글 내용"
-    },
-    {
-      "ssid": "3",
-      "todoId": "s0I6SDV",
-      "userName": "글쓴이",
-      "userComment": "댓글 내용"
-    },
-    {
-      "ssid": "4",
-      "todoId": "s0I6SDV",
-      "userName": "글쓴이",
-      "userComment": "댓글 내용"
+      "todoId": "1",
+      "userName": "",
+      "userComment": "ㅇㅇㅇ",
+      "id": 1
     }
   ]
 }

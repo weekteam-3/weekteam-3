@@ -53,12 +53,10 @@ export const __deleteComment = createAsyncThunk(
   "DELETE_COMMENT",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.delete(
-        `http://localhost:3001/comments/${payload}`
-      );
-      return thunkAPI.fulfillWithValue(data.data);
+      await axios.delete(`http://localhost:3001/comments/${payload}`);
+      return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.code);
     }
   }
 );
@@ -96,8 +94,10 @@ export const cardSlice = createSlice({
       state.isLoading = true;
     },
     [__updateComment.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.card = action.payload;
+      const target = state.comments.findIndex(
+        (comment) => comment.id === action.payload.id
+      );
+      state.comments.splice(target, 1, action.payload);
     },
     [__updateComment.rejected]: (state, action) => {
       state.isLoading = false;
@@ -110,7 +110,10 @@ export const cardSlice = createSlice({
     },
     [__deleteComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.card = action.payload;
+      const target = state.comments.findIndex(
+        (comment) => comment.id === action.payload
+      );
+      state.comments.splice(target, 1);
     },
     [__deleteComment.rejected]: (state, action) => {
       state.isLoading = false;
